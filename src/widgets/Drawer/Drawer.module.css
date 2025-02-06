@@ -1,0 +1,181 @@
+/* General Styles */
+.drawer-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .drawer-content {
+    background-color: #f5f5f5;
+    max-width: 548px;
+    border-radius: 8px;
+  }
+  
+  .drawer-header {
+    border-bottom-width: 1px;
+    background-color: white;
+    padding: 24px 42px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #1e1e1e;
+  }
+  
+  .drawer-close-button {
+    position: static;
+    border: none;
+    background: none;
+    color: #8e8e93;
+    cursor: pointer;
+  }
+  
+  .drawer-close-button:hover {
+    color: #000;
+  }
+  
+  /* Input Styles */
+  .input-group {
+    margin-bottom: 24px;
+    width: 100%;
+    max-width: 600px;
+    align-items: center;
+  }
+  
+  .input-left-element,
+  .input-right-element {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-left-element {
+    padding-left: 16px;
+  }
+  
+  .input {
+    padding: 12px 20px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .input-placeholder {
+    color: gray.400;
+  }
+  
+  .clear-button {
+    background-color: none;
+    border: none;
+    color: #8e8e93;
+    cursor: pointer;
+  }
+  
+  .clear-button:hover {
+    color: #555;
+  }
+  
+  /* Item Box */
+  .item-box {
+    background-color: white;
+    box-shadow: sm;
+    border-radius: 8px;
+    margin: 8px 0;
+    padding: 16px;
+    border: none;
+  }
+  
+  .item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .item-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    background-size: cover;
+    background-position: center;
+    margin-right: 16px;
+  }
+  
+  .item-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .item-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: #1e1e1e;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .item-price {
+    font-size: 14px;
+    color: #1e1e1e;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Discount Row */
+  .discount-row {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .discount-box,
+  .final-price-box {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 15px;
+    width: 180px;
+    text-align: center;
+  }
+  
+  .discount-text,
+  .final-price-text {
+    font-weight: bold;
+  }
+  
+  .discount-text {
+    color: #4781e9;
+  }
+  
+  .final-price-text {
+    color: #1e1e1e;
+  }
+  
+  /* Button Styles */
+  .add-button {
+    background-color: #4781e9;
+    color: #fff;
+    padding: 16px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-button:hover {
+    background-color: #3b6fd6;
+  }
+  
+  @media (max-width: 768px) {
+    .drawer-content {
+      max-width: 100%;
+    }
+  
+    .item-box {
+      margin: 16px 0;
+    }
+  }
+  

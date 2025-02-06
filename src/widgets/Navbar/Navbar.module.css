@@ -1,0 +1,31 @@
+/* src/styles/shared/Navbar.module.css */
+.navbar {
+  margin: 0px 100px 24px 100px;
+  padding: 40px 100px;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #d1d1d6;
+  background: var(--Fill-Primary, rgba(255, 255, 255, 1));
+}
+
+.title {
+  padding: 0 0 0 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.button {
+  border-radius: 4px;
+  background-color: #edf2fd;
+  color: #4781e9;
+  margin: 6px 24px 6px 0;
+  padding: 0 16px;
+  height: 40px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
