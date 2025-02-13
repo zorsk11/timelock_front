@@ -1,7 +1,9 @@
+// Sidebar.module.tsx
 import React from "react";
-import { useNavigate } from "react-router";
 import { Box, Icon } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 import { colors } from "./Sidebar.styles";
 
 export interface HeaderItem {
@@ -10,21 +12,13 @@ export interface HeaderItem {
   label: string;
 }
 
-export const headerItems: HeaderItem[] = [
-  {
-    to: "/profile",
-    icon: ChevronRightIcon,
-    label: "Азамат Тайжанов",
-  },
-];
-
 export const HeaderButton: React.FC<HeaderItem> = ({ to, icon, label }) => (
   <Box
     as="a"
     href={to}
     borderRadius="12px"
     bg="#F5F5F5"
-    margin="1px 16px 1px 16px"
+    margin="1px 16px"
     borderColor={colors.borderColor}
     fontSize="sm"
     fontWeight="bold"
@@ -36,7 +30,31 @@ export const HeaderButton: React.FC<HeaderItem> = ({ to, icon, label }) => (
     _hover={{ bg: "#E0E0E0" }}
   >
     {label}
-    <Icon as={icon} color="#AEAEB2" boxSize="24px" />
+    <Icon as={ChevronRightIcon} color="#AEAEB2" boxSize="24px" />
   </Box>
 );
 
+export const HeaderItems: React.FC = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const userName =
+    user?.FirstName && user?.SecondName
+      ? `${user.FirstName} ${user.SecondName}`
+      : "Профиль";
+
+  const dynamicHeaderItems: HeaderItem[] = [
+    {
+      to: "/profile",
+      icon: ChevronRightIcon,
+      label: userName,
+    },
+  ];
+
+  return (
+    <>
+      {dynamicHeaderItems.map((item, index) => (
+        <HeaderButton key={index} {...item} />
+      ))}
+    </>
+  );
+};

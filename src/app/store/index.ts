@@ -24,10 +24,9 @@ const persistConfig = {
   whitelist: ["auth"], // сохраняется только auth
 };
 
-// Определяем тип состояния, возвращаемого rootReducer, с опциональным полем _persist
+// Приводим persistedReducer к типу, соответствующему RootState
 export type RootState = ReturnType<typeof rootReducer> & { _persist?: unknown };
 
-// Приводим persistedReducer к типу, соответствующему RootState
 const persistedReducer = persistReducer(persistConfig, rootReducer) as (
   state: RootState | undefined,
   action: any

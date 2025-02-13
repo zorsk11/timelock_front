@@ -1,7 +1,7 @@
 import { fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { BaseQueryFn, FetchArgs } from "@reduxjs/toolkit/query";
 import type { RootState } from "@/app/store";
-import { logout } from "@/features/UserRegistration/model/authSlice";
+import { logoutUser } from "@/features/UserRegistration/model/authSlice";
 
 export const baseQueryWithReauth = ({
   baseUrl,
@@ -11,7 +11,8 @@ export const baseQueryWithReauth = ({
   const rawBaseQuery = fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
+      // Извлекаем token из user, если он существует
+      const token = (getState() as RootState).auth.user?.token;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -22,10 +23,11 @@ export const baseQueryWithReauth = ({
   return async (args, api, extraOptions) => {
     const result = await rawBaseQuery(args, api, extraOptions);
 
-    const isAuthenticated = (api.getState() as RootState).auth.isAuthenticated;
+    // Проверяем, авторизован ли пользователь (т.е. существует ли объект user)
+    const isAuthenticated = Boolean((api.getState() as RootState).auth.user);
 
     if (result.error && result.error.status === 401 && isAuthenticated) {
-      api.dispatch(logout());
+      api.dispatch(logoutUser());
 
       window.location.href = "/login";
 

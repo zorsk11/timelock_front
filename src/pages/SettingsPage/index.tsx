@@ -1,31 +1,39 @@
-import React, { useEffect } from "react";
-import { Box, Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@chakra-ui/react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@chakra-ui/react";
 import { ExitIcon } from "@/shared/assets";
-import { useLayout } from "@/shared/context/LayoutContext";
+import Navbar from "@/widgets/Navbar/index";
 
 const SettingsPage: React.FC = () => {
-  const { setTitle, setButtons } = useLayout();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Здесь можно добавить логику выхода из приложения, если потребуется.
+    // Удаляем токен и, если нужно, сбрасываем глобальное состояние авторизации
+    localStorage.removeItem("token");
     console.log("Пользователь вышел из системы");
     onClose();
+    // Перенаправляем на страницу логина
+    navigate("/login");
   };
-
-  useEffect(() => {
-    setTitle("Настройки");
-    setButtons(
-      <Box>
-        <Button rightIcon={<ExitIcon />} variant="navbar" onClick={onOpen}>
-          Выйти
-        </Button>
-      </Box>
-    );
-  }, [setTitle, setButtons, onOpen]);
 
   return (
     <>
+      <Navbar
+        title="Настройки"
+        buttonLabel="Выйти"
+        onButtonClick={onOpen}
+      />
+
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

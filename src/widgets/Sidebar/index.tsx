@@ -1,8 +1,9 @@
+// Sidebar.tsx
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Box, List, ListItem, Link as ChakraLink, Icon } from "@chakra-ui/react";
 import { menuItems } from "@/entities/Sidebar/model";
-import { headerItems, HeaderButton } from "./module"; // Импортируем headerItems и HeaderButton
+import { HeaderItems } from "./module"; // Импортируем динамический компонент HeaderItems
 import { colors, linkStyles } from "./Sidebar.styles";
 
 interface SidebarProps {}
@@ -28,10 +29,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
       fontFamily="'Arial', sans-serif"
       opacity={1}
     >
-      {/* Отображаем headerItems */}
-      {headerItems.map((item, index) => (
-        <HeaderButton key={index} {...item} />
-      ))}
+      {/* Отображаем динамические headerItems */}
+      <HeaderItems />
 
       {/* Список меню */}
       <List spacing={4} px={4}>

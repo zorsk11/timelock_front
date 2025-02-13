@@ -3,11 +3,11 @@ import { Box, Icon } from '@chakra-ui/react';
 import { useLayoutContext } from '@/shared/context/LayoutContext';
 import Button from '@/shared/components/Button';
 import DiscountDrawer from '@/widgets/Drawer/index';
-import {colors} from "@/widgets/Navbar/Navbar.styles"
+import { colors } from "@/widgets/Navbar/Navbar.styles";
 
 interface NavBarProps {
   title: string;
-  buttonLabel: string;
+  buttonLabel: React.ReactNode; // изменено с string на React.ReactNode
   buttonIcon?: React.ElementType;
   onButtonClick?: () => void;
 }
@@ -33,7 +33,7 @@ const Navbar: React.FC<NavBarProps> = ({ title, buttonLabel, buttonIcon, onButto
         alignItems="center"
         zIndex={1000}
       >
-        <Box as="h3" fontSize="20px" fontWeight="bold" color="#333" >
+        <Box as="h3" fontSize="20px" fontWeight="bold" color="#333">
           {title}
         </Box>
         <Button
