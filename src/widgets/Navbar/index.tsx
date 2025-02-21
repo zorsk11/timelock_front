@@ -7,7 +7,7 @@ import { colors } from "@/widgets/Navbar/Navbar.styles";
 
 interface NavBarProps {
   title: string;
-  buttonLabel: React.ReactNode; // изменено с string на React.ReactNode
+  buttonLabel?: React.ReactNode; // изменено с string на React.ReactNode
   buttonIcon?: React.ElementType;
   onButtonClick?: () => void;
 }

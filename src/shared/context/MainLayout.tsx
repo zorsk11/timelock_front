@@ -11,7 +11,7 @@ const MainLayout: React.FC = () => {
   const isAuthPage = location.pathname === "/login" || location.pathname.startsWith("/auth");
 
   return (
-    <Box display="flex">
+    <Box >
       { !isAuthPage && <Sidebar /> }
       <Box>
         <Outlet />

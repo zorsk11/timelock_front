@@ -1,29 +1,32 @@
 import React from "react";
 import { FC } from "react";
-import { Box, Input, Button, VStack } from "@chakra-ui/react";
-import { useState } from "react";
-import { QRCodeCanvas } from "qrcode.react";
+import { Box, Input, Button, VStack, Container, Flex } from "@chakra-ui/react";
+import Navbar from "@/widgets/Navbar";
+import DiscountDrawer from "@/widgets/Drawer";
+import Sidebar from "@/widgets/Sidebar";
+import RoomsCard from "@/features/RoomsForm/ui/RoomsCard";
 
 const RoomsPage: FC = () => {
-  const [text, setText] = useState<string>("https://example.com");
-
   return (
-    <VStack spacing={4} p={4} bg="gray.100" borderRadius="lg">
-      <Box p={4} bg="white" borderRadius="lg">
-        <QRCodeCanvas value={text} size={200} />
+    <Flex>
+      <Sidebar />
+
+      {/* Контент смещается вправо */}
+      <Box flex="1" ml="248px">
+        <Navbar title="Преподаватели" buttonLabel="Добавить" />
+        <Box flex="1" mt="64px">
+          <Container maxW="container.xl" py="6">
+            <RoomsCard />
+          </Container>
+        </Box>
       </Box>
-      <Input
-        placeholder="Введите ссылку или текст"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        bg="white"
-      />
-      <Button colorScheme="blue" onClick={() => setText(text)}>
-        Сгенерировать QR-код
-      </Button>
-    </VStack>
+
+      {/* Дровер с кастомным содержимым для страницы расписаний */}
+      <DiscountDrawer headerTitle="Добавить расписание">
+      </DiscountDrawer>
+    </Flex>
   );
 };
 
-
+  
 export default RoomsPage;

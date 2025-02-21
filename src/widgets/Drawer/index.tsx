@@ -11,9 +11,10 @@ import { useLayoutContext } from '@/shared/context/LayoutContext';
 
 interface DiscountDrawerProps {
   headerTitle: string;
+  children?: React.ReactNode;
 }
 
-const DiscountDrawer: React.FC<DiscountDrawerProps> = ({ headerTitle }) => {
+const DiscountDrawer: React.FC<DiscountDrawerProps> = ({ headerTitle, children }) => {
   const { isDrawerOpen, toggleDrawer } = useLayoutContext();
 
   return (
@@ -23,7 +24,7 @@ const DiscountDrawer: React.FC<DiscountDrawerProps> = ({ headerTitle }) => {
         <DrawerCloseButton />
         <DrawerHeader>{headerTitle}</DrawerHeader>
         <DrawerBody>
-          {/* Content goes here */}
+          {children}
         </DrawerBody>
       </DrawerContent>
     </Drawer>
