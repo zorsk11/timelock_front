@@ -36,3 +36,18 @@ export interface RegistrationData {
   firstName?: string;
   lastName?: string;
 }
+
+export interface User {
+  id: string;
+  token: string;
+  email: string;
+  FirstName: string;
+  SecondName: string;
+  phone: string;
+  role: string;
+  accessRooms: string[];
+  photos: string[];
+  address: string;
+  country: string;
+  city: string;
+}

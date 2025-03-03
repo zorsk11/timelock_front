@@ -1,13 +1,18 @@
-// authSlice.ts
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Интерфейс пользователя (свойства с заглавной буквы, как вы их используете в состоянии)
 export interface User {
   id: string;
+  token: string;
   email: string;
   FirstName: string;
   SecondName: string;
-  token: string;
+  phone: string;
+  role: string;
+  accessRooms: string[];
+  photos: string[];
+  address: string;
+  country: string;
+  city: string;
 }
 
 interface AuthState {
@@ -30,6 +35,13 @@ export const loginUser = createAsyncThunk<
     email: string;
     first_name: string;
     second_name: string;
+    phone: string;
+    role: string;
+    access_rooms: string[];
+    photos: string[];
+    address: string;
+    country: string;
+    city: string;
   },
   { identifier: string; password: string },
   { rejectValue: string }
@@ -39,20 +51,17 @@ export const loginUser = createAsyncThunk<
     try {
       const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         return thunkAPI.rejectWithValue(errorData.error || 'Ошибка авторизации');
       }
-      
+
       const data = await response.json();
-      
-      // Преобразуем данные: извлекаем нужные поля из data.user
+
       return {
         token: data.token,
         message: data.message,
@@ -60,13 +69,19 @@ export const loginUser = createAsyncThunk<
         email: data.user.email,
         first_name: data.user.first_name,
         second_name: data.user.second_name,
+        phone: data.user.phone,
+        role: data.user.role,
+        access_rooms: data.user.access_rooms,
+        photos: data.user.photos,
+        address: data.user.address,
+        country: data.user.country,
+        city: data.user.city,
       };
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message || 'Ошибка авторизации');
     }
   }
 );
-
 
 const authSlice = createSlice({
   name: 'auth',
@@ -83,8 +98,7 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    // Здесь производится маппинг из payload, который содержит поля first_name и second_name,
-    // в поля состояния FirstName и SecondName
+
     builder.addCase(
       loginUser.fulfilled,
       (
@@ -96,19 +110,33 @@ const authSlice = createSlice({
           email: string;
           first_name: string;
           second_name: string;
+          phone: string;
+          role: string;
+          access_rooms: string[];
+          photos: string[];
+          address: string;
+          country: string;
+          city: string;
         }>
       ) => {
         state.loading = false;
         state.user = {
           id: action.payload.id,
           email: action.payload.email,
-          FirstName: action.payload.first_name,   // маппинг из first_name
-          SecondName: action.payload.second_name,   // маппинг из second_name
+          FirstName: action.payload.first_name,
+          SecondName: action.payload.second_name,
           token: action.payload.token,
+          phone: action.payload.phone,
+          role: action.payload.role,
+          accessRooms: action.payload.access_rooms,
+          photos: action.payload.photos,
+          address: action.payload.address,
+          country: action.payload.country,
+          city: action.payload.city,
         };
       }
     );
-    
+
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload || 'Ошибка авторизации';

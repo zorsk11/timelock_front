@@ -17,7 +17,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import { Schedule } from '@features/SchedulesCard/model/types'; // убедитесь, что путь корректный
+import { Schedule } from '@features/SchedulesCard/model/types';
 
 interface ScheduleActionsProps {
   schedule: Schedule;
@@ -70,18 +70,17 @@ const ScheduleActions: React.FC<ScheduleActionsProps> = ({ schedule, refreshSche
   // Функция обновления расписания
   const handleUpdate = async () => {
     try {
-      // Собираем обновленные данные (id не отправляем, если сервер не ожидает его)
       const updatedData = {
-        userId: scheduleData.userId,
-        firstName: scheduleData.firstName,
-        secondName: scheduleData.secondName,
+        user_id: scheduleData.userId,
+        first_name: scheduleData.firstName,
+        second_name: scheduleData.secondName,
         day: scheduleData.day,
-        startTime: scheduleData.startTime,
-        endTime: scheduleData.endTime,
-        roomNumber: scheduleData.roomNumber,
+        start_time: scheduleData.startTime,
+        end_time: scheduleData.endTime,
+        room_number: scheduleData.roomNumber,
         subject: scheduleData.subject,
       };
-
+      
       const response = await fetch(`http://localhost:8080/schedule/${scheduleData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
