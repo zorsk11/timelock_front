@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '@/app/store/index'; // Импортируйте тип корневого состояния вашего Redux store
 
 export interface User {
   id: string;
@@ -27,6 +28,7 @@ const initialState: AuthState = {
   error: null,
 };
 
+// Thunk для логина пользователя
 export const loginUser = createAsyncThunk<
   {
     token: string;
@@ -83,6 +85,71 @@ export const loginUser = createAsyncThunk<
   }
 );
 
+// Thunk для обновления контактов (почты и телефона) пользователя.
+// Теперь в payload отправляются только непустые поля,
+// а если сервер не возвращает обновлённое значение, сохраняем старое.
+export const updateUserContact = createAsyncThunk<
+  { email: string; phone: string },
+  { email?: string; phone?: string },
+  { state: RootState; rejectValue: string }
+>(
+  'auth/updateUserContact',
+  async (contactData, thunkAPI) => {
+    try {
+      // Получаем токен и текущего пользователя из состояния
+      const state = thunkAPI.getState();
+      const user = state.auth.user;
+      if (!user) {
+        return thunkAPI.rejectWithValue('Пользователь не авторизован');
+      }
+
+      // Формируем URL для обновления с использованием ID пользователя (маршрут: PUT /users/:id)
+      const url = `http://localhost:8080/users/${user.id}`;
+
+      // Формируем payload: включаем только те поля, которые не пустые
+      const payload: Partial<{ email: string; phone: string }> = {};
+      if (contactData.email !== undefined && contactData.email !== "") {
+        payload.email = contactData.email;
+      }
+      if (contactData.phone !== undefined && contactData.phone !== "") {
+        payload.phone = contactData.phone;
+      }
+
+      // Если нет данных для обновления, возвращаем ошибку
+      if (Object.keys(payload).length === 0) {
+        return thunkAPI.rejectWithValue('Нет данных для обновления');
+      }
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return thunkAPI.rejectWithValue(errorData.error || 'Ошибка обновления данных');
+      }
+
+      const data = await response.json();
+
+      // Если сервер не вернул одно из полей, используем старое значение
+      const updatedEmail = data.email !== undefined && data.email !== "" ? data.email : user.email;
+      const updatedPhone = data.phone !== undefined && data.phone !== "" ? data.phone : user.phone;
+
+      return {
+        email: updatedEmail,
+        phone: updatedPhone,
+      };
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message || 'Ошибка обновления данных');
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -94,11 +161,11 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Обработка loginUser
     builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-
     builder.addCase(
       loginUser.fulfilled,
       (
@@ -136,10 +203,29 @@ const authSlice = createSlice({
         };
       }
     );
-
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload || 'Ошибка авторизации';
+    });
+
+    // Обработка updateUserContact
+    builder.addCase(updateUserContact.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(
+      updateUserContact.fulfilled,
+      (state, action: PayloadAction<{ email: string; phone: string }>) => {
+        state.loading = false;
+        if (state.user) {
+          state.user.email = action.payload.email;
+          state.user.phone = action.payload.phone;
+        }
+      }
+    );
+    builder.addCase(updateUserContact.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || 'Ошибка обновления данных';
     });
   },
 });

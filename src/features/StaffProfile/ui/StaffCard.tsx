@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { User } from '@/features/StaffProfile/modal/type';
-import DeleteButton from '@/features/StaffProfile/ui/DeleteButton'; // Кнопка редактирования/удаления
+import DeleteButton from '@/features/StaffProfile/ui/DeleteButton'; 
 
 const UsersCard: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -117,6 +117,7 @@ const UsersCard: React.FC = () => {
               <Td>{user.address}</Td>
               <Td>{user.accessRooms.join(', ')}</Td>
               <Td>
+              <DeleteButton userId={user.id} refreshUsers={fetchUsers} />
               </Td>
             </Tr>
           ))}

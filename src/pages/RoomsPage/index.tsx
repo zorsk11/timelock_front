@@ -11,9 +11,8 @@ const RoomsPage: FC = () => {
     <Flex>
       <Sidebar />
 
-      {/* Контент смещается вправо */}
       <Box flex="1" ml="248px">
-        <Navbar title="Преподаватели" buttonLabel="Добавить" />
+        <Navbar title="Кабинеты" buttonLabel="Добавить" />
         <Box flex="1" mt="64px">
           <Container maxW="container.xl" py="6">
             <RoomsCard />
@@ -21,8 +20,7 @@ const RoomsPage: FC = () => {
         </Box>
       </Box>
 
-      {/* Дровер с кастомным содержимым для страницы расписаний */}
-      <DiscountDrawer headerTitle="Добавить расписание">
+      <DiscountDrawer headerTitle="Добавить кабинет">
       </DiscountDrawer>
     </Flex>
   );

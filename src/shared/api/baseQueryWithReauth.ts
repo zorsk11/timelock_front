@@ -11,7 +11,6 @@ export const baseQueryWithReauth = ({
   const rawBaseQuery = fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers, { getState }) => {
-      // Извлекаем token из user, если он существует
       const token = (getState() as RootState).auth.user?.token;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -23,7 +22,6 @@ export const baseQueryWithReauth = ({
   return async (args, api, extraOptions) => {
     const result = await rawBaseQuery(args, api, extraOptions);
 
-    // Проверяем, авторизован ли пользователь (т.е. существует ли объект user)
     const isAuthenticated = Boolean((api.getState() as RootState).auth.user);
 
     if (result.error && result.error.status === 401 && isAuthenticated) {

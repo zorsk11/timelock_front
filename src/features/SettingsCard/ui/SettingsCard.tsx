@@ -1,4 +1,3 @@
-// src/features/SettingsCard/ui/EmailCard.tsx
 import React from "react";
 import {
   Box,
@@ -9,10 +8,10 @@ import {
 } from "@chakra-ui/react";
 
 interface EmailCardProps {
-  oldEmail: string; // Текущее значение, отображается как "Старая почта"
-  newEmail: string; // Новое значение, вводит пользователь
-  onNewEmailChange: (val: string) => void; // Колбэк для изменения newEmail
-  onSave: () => void; // Колбэк для сохранения
+  oldEmail: string; 
+  newEmail: string; 
+  onNewEmailChange: (val: string) => void; 
+  onSave: () => void; 
 }
 
 const EmailCard: React.FC<EmailCardProps> = ({

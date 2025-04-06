@@ -11,7 +11,6 @@ import {
 interface Room {
   id: string;
   room_number: string;
-  // другие поля, если необходимы
 }
 
 interface Staff {
@@ -24,7 +23,7 @@ interface Staff {
   country: string;
   role: string;
   password: string;
-  accessRooms: string; // выбрана одна аудитория
+  accessRooms: string; 
 }
 
 const CreateStaffForm: React.FC = () => {

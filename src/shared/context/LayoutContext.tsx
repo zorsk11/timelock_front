@@ -1,26 +1,22 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface LayoutContextProps {
-  // Из первого кода
   title: string;
   setTitle: (title: string) => void;
   buttons?: React.ReactNode;
   setButtons: (buttons: React.ReactNode) => void;
-  // Из второго кода
-  isNavbarVisible: boolean; // Состояние видимости Navbar
-  toggleNavbarVisibility: () => void; // Функция для переключения видимости Navbar
-  isDrawerOpen: boolean; // Состояние видимости Drawer
-  toggleDrawer: () => void; // Функция для переключения видимости Drawer
+  isNavbarVisible: boolean;
+  toggleNavbarVisibility: () => void; 
+  isDrawerOpen: boolean; 
+  toggleDrawer: () => void; 
 }
 
 const LayoutContext = createContext<LayoutContextProps | undefined>(undefined);
 
 export const LayoutProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // Состояния из первого кода
   const [title, setTitle] = useState<string>("Default Title");
   const [buttons, setButtons] = useState<React.ReactNode>(null);
 
-  // Состояния из второго кода
   const [isNavbarVisible, setNavbarVisible] = useState(true);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 

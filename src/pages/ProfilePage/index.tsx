@@ -6,12 +6,10 @@ import {
   Container,
   Flex,
   Text,
-  VStack // <-- Импортируем VStack
+  VStack 
 } from '@chakra-ui/react';
 import Navbar from "@/widgets/Navbar";
 import Sidebar from "@/widgets/Sidebar";
-
-// Импорты наших карточек:
 import InfoForm from '@/features/UserProfile/ui/InfoForm';
 import PersonalInfo from '@/features/UserProfile/ui/PersonalInfo';
 import AddressCard from '@/features/UserProfile/ui/AddressCard';
@@ -22,14 +20,12 @@ const ProfilePage: React.FC = () => {
   let content;
 
   if (!authUser) {
-    // Если пользователь не авторизован
     content = (
       <Box p={4}>
         <Text>Пожалуйста, авторизуйтесь, чтобы увидеть данные профиля.</Text>
       </Box>
     );
   } else {
-    // Преобразуем данные из authUser под наши компоненты
     const userData = {
       id: authUser.id,
       firstName: authUser.FirstName,
@@ -49,9 +45,7 @@ const ProfilePage: React.FC = () => {
 
     content = (
       <Box p={4}>
-        {/* Вертикальный стек с отступом между элементами */}
         <VStack spacing={6} align="stretch">
-          {/* Карточка «My Profile» с аватаром */}
           <InfoForm
             user={{
               firstName: userData.firstName,
@@ -59,14 +53,12 @@ const ProfilePage: React.FC = () => {
               role: userData.role,
               city: userData.city,
               country: userData.country,
-              avatarUrl: userData.photos[0], // берём первое фото как аватар
+              avatarUrl: userData.photos[0], 
             }}
           />
 
-          {/* Карточка с личной информацией (имя, фамилия, e-mail, телефон, роль) */}
           <PersonalInfo user={userData} />
 
-          {/* Карточка с адресом (страна, город, полный адрес) */}
           <AddressCard user={userData} />
         </VStack>
       </Box>

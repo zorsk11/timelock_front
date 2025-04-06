@@ -1,4 +1,3 @@
-// src/features/SettingsCard/ui/PhoneCard.tsx
 import React from "react";
 import {
   Box,
@@ -9,10 +8,10 @@ import {
 } from "@chakra-ui/react";
 
 interface PhoneCardProps {
-  oldPhone: string; // Текущее значение, отображается как "Старый номер"
-  newPhone: string; // Новое значение, вводит пользователь
-  onNewPhoneChange: (val: string) => void; // Колбэк для изменения newPhone
-  onSave: () => void; // Колбэк для сохранения
+  oldPhone: string; 
+  newPhone: string; 
+  onNewPhoneChange: (val: string) => void; 
+  onSave: () => void; 
 }
 
 const PhoneCard: React.FC<PhoneCardProps> = ({

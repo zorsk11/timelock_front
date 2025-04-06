@@ -1,25 +1,14 @@
 import React from "react";
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-} from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 
-interface EmailCardProps {
-  oldEmail: string;          // Текущее значение, отображается как "Старая почта"
-  newEmail: string;          // Новое значение, вводит пользователь
-  onNewEmailChange: (val: string) => void; // Колбэк для изменения newEmail
-  onSave: () => void;        // Колбэк для сохранения
+export interface EmailCardProps {
+  oldEmail: string;
+  newEmail: string;
+  onNewEmailChange: (value: string) => void;
+  onSave: () => void;
 }
 
-const EmailCard: React.FC<EmailCardProps> = ({
-  oldEmail,
-  newEmail,
-  onNewEmailChange,
-  onSave,
-}) => {
+const EmailCard: React.FC<EmailCardProps> = ({ oldEmail, newEmail, onNewEmailChange, onSave }) => {
   return (
     <Box p={6} borderRadius="12px" bg="white">
       <FormControl>

@@ -4,7 +4,6 @@ import { Box, Container, Flex } from "@chakra-ui/react";
 import React from "react";
 import DiscountDrawer from "@/widgets/Drawer/index";
 import Sidebar from "@/widgets/Sidebar";
-// Импортируйте компонент, который хотите показать в дровере
 import MyDrawerButton from "@/features/SchedulesCard/ui/MyButton";
 
 const SchedulesPage: React.FC = () => {
@@ -12,9 +11,8 @@ const SchedulesPage: React.FC = () => {
     <Flex>
       <Sidebar />
 
-      {/* Контент смещается вправо */}
       <Box flex="1" ml="248px">
-        <Navbar title="Преподаватели" buttonLabel="Добавить" />
+        <Navbar title="Расписание" buttonLabel="Добавить" />
         <Box flex="1" mt="64px">
           <Container maxW="container.xl" py="6">
             <SchedulesCard />
@@ -22,7 +20,6 @@ const SchedulesPage: React.FC = () => {
         </Box>
       </Box>
 
-      {/* Дровер с кастомным содержимым для страницы расписаний */}
       <DiscountDrawer headerTitle="Добавить расписание">
         <MyDrawerButton />
       </DiscountDrawer>

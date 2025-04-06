@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IconButton,
   Menu,
@@ -29,29 +29,39 @@ interface Room {
   name: string;
 }
 
+interface UserData {
+  email: string;
+  phone: string;
+  address: string;
+  role: string;
+  city: string;
+  country: string;
+  rooms: string[]; // Массив id выбранных комнат
+}
+
 const DeleteButton: React.FC<DeleteButtonProps> = ({ userId, refreshUsers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isEditing, setIsEditing] = useState(false);
 
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<UserData>({
     email: '',
     phone: '',
     address: '',
     role: '',
     city: '',
     country: '',
-    rooms: '', // Храним id выбранной комнаты
+    rooms: [],
   });
 
   // Состояние для хранения исходных данных пользователя
-  const [initialUserData, setInitialUserData] = useState({
+  const [initialUserData, setInitialUserData] = useState<UserData>({
     email: '',
     phone: '',
     address: '',
     role: '',
     city: '',
     country: '',
-    rooms: '',
+    rooms: [],
   });
 
   // Список доступных комнат из базы
@@ -76,27 +86,34 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ userId, refreshUsers }) => 
       .catch((error) => console.error('Ошибка загрузки комнат:', error));
   }, []);
 
-  // Загружаем данные пользователя для редактирования
+  // Загружаем данные пользователя только в режиме редактирования
   useEffect(() => {
-    if (userId) {
+    if (isEditing && userId) {
       fetch(`http://localhost:8080/users/${userId}`)
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Пользователь не найден');
+          }
+          return response.json();
+        })
         .then((data) => {
-          const fetchedData = {
+          const fetchedData: UserData = {
             email: data.email,
             phone: data.phone,
             address: data.address,
             role: data.role,
             city: data.city,
             country: data.country,
-            rooms: data.rooms || '', // ожидается, что здесь хранится id комнаты
+            rooms: data.rooms || [], // ожидается массив id комнат
           };
           setUserData(fetchedData);
           setInitialUserData(fetchedData); // Сохраняем исходные данные
         })
-        .catch((error) => console.error('Ошибка загрузки пользователя:', error));
+        .catch((error) =>
+          console.error('Ошибка загрузки пользователя:', error)
+        );
     }
-  }, [userId]);
+  }, [userId, isEditing]);
 
   // Функция удаления пользователя
   const handleDelete = async () => {
@@ -129,17 +146,20 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ userId, refreshUsers }) => 
     }
   };
 
-  // Функция обновления пользователя с методом PUT
   const handleUpdate = async () => {
     try {
-      // Если поле не заполнено, используем исходное значение
       const updatedData = {
         email: userData.email.trim() ? userData.email : initialUserData.email,
         phone: userData.phone.trim() ? userData.phone : initialUserData.phone,
-        address: userData.address.trim() ? userData.address : initialUserData.address,
+        address: userData.address.trim()
+          ? userData.address
+          : initialUserData.address,
         city: userData.city.trim() ? userData.city : initialUserData.city,
-        country: userData.country.trim() ? userData.country : initialUserData.country,
-        rooms: userData.rooms.trim() ? userData.rooms : initialUserData.rooms,
+        country: userData.country.trim()
+          ? userData.country
+          : initialUserData.country,
+        rooms:
+          userData.rooms.length > 0 ? userData.rooms : initialUserData.rooms,
       };
 
       const response = await fetch(`http://localhost:8080/users/${userId}`, {
@@ -205,7 +225,9 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ userId, refreshUsers }) => 
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {isEditing ? 'Редактировать пользователя' : 'Удалить пользователя?'}
+            {isEditing
+              ? 'Редактировать пользователя'
+              : 'Удалить пользователя?'}
           </ModalHeader>
           <ModalBody>
             {isEditing ? (
@@ -215,7 +237,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ userId, refreshUsers }) => 
                   value={userData.email}
                   onChange={(e) =>
                     setUserData({ ...userData, email: e.target.value })
-                  }
+                  } 
                   mb={3}
                 />
                 <Input
@@ -251,14 +273,19 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ userId, refreshUsers }) => 
                   mb={3}
                 />
                 <Select
-                  placeholder="Выберите комнату"
+                  placeholder="Выберите комнаты"
+                  multiple
                   value={userData.rooms}
-                  onChange={(e) =>
-                    setUserData({ ...userData, rooms: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const selectedValues = Array.from(
+                      e.target.selectedOptions,
+                      (option) => option.value
+                    );
+                    setUserData({ ...userData, rooms: selectedValues });
+                  }}
                   mb={3}
-                  bg="white" // Явно задаём белый фон
-                  color="black" // и чёрный цвет текста
+                  bg="white"
+                  color="black"
                 >
                   {availableRooms.length ? (
                     availableRooms.map((room) => (

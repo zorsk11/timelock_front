@@ -45,6 +45,5 @@ export function handleApiError(error: unknown): string {
     }
   }
 
-  // Unknown Error
   return "Произошла неизвестная ошибка";
 }

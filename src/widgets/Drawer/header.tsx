@@ -21,13 +21,12 @@ export const HeaderButton: React.FC<HeaderItem> = ({ to, label }) => (
     display="flex"
     justifyContent="space-between"
     alignItems="center"
-    _hover={{ bg: "#E0E0E0" }} // Добавляем hover эффект
+    _hover={{ bg: "#E0E0E0" }}
   >
     {label}
   </Box>
 );
 
-// Обновленный компонент Header без кнопки
 export const Header: React.FC<{ label: string }> = ({ label }) => (
   <Box
     as="h3"
